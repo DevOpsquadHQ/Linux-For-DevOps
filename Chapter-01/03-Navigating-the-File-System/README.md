@@ -1,7 +1,6 @@
 # Chapter 1 - Lesson 3: Navigating the File System
 
-✅ **Chapter 1 | Lesson 3 of 10**
-📍 `pwd` | `ls` | `cd` | `tree`
+**Chapter 1 | Lesson 3 of 10**
 
 
 ## 🎯 এই Lesson-এ আমরা কী শিখবো?
@@ -18,18 +17,18 @@ Linux-এ কাজ করতে হলে File System-এর ভেতরে **
  - অন্য ফ্লোরে যেতে = `cd`
  - পুরো বিল্ডিং-এর map দেখতে = `tree`
 
-## 🔵 Command 1: `pwd` - Print Working Directory
+## Command 1: `pwd` - Print Working Directory
 
-### 📌 এটা কী করে?
+### এটা কী করে?
 আপনি এখন **কোন directory-তে আছেন** সেটা দেখায়। "আমি এখন কোথায় আছি?" এই প্রশ্নের উত্তর।
 
-### 📌 Syntax:
+### Syntax:
 ```bash
 pwd
 ```
 কোনো option লাগে না। শুধু `pwd` লিখে Enter চাপলেই হবে।
 
-### 📌 Example:
+### Example:
 ```bash
 $ pwd
 /home/munir
@@ -37,22 +36,22 @@ $ pwd
 
 এর মানে হলো আমি এখন `/home/munir` directory-তে আছো। অর্থাৎ আমার ইউজার directory।
 
-### 📌 DevOps-এ কাজে লাগে কখন?
+### DevOps-এ কাজে লাগে কখন?
 - Script চালানোর আগে confirm করতে হয় যে সঠিক জায়গায় আছি কিনা।
 - কোনো ভুল directory থেকে command রান করে ফেললে যাতে সহজে বুঝতে পারি।
 - CI/CD pipeline-এ current path verify করতে।
 
-## 🔵 Command 2: `ls` - List Directory Contents
+## Command 2: `ls` - List Directory Contents
 
-### 📌 এটা কী করে?
+### এটা কী করে?
 Current directory-তে কী কী **file ও folder** আছে তা দেখায়।
 
-### 📌 Basic Syntax:
+### Basic Syntax:
 ```bash
 ls [option] [path]
 ```
 
-### 📌 সবচেয়ে গুরুত্বপূর্ণ Options:
+### সবচেয়ে গুরুত্বপূর্ণ Options:
 
 | Option | মানে | কাজ |
 |--------|------|-----|
@@ -64,7 +63,7 @@ ls [option] [path]
 | `ls -lt` | time sorted | সবচেয়ে নতুন file আগে |
 | `ls -R` | recursive | সব sub-folder সহ দেখায় |
 
-### 📌 Examples:
+### Examples:
 
 **Basic list:**
 ```bash
@@ -105,22 +104,22 @@ $ ls /etc
 apt  bash.bashrc  crontab  hostname  hosts  passwd  ssh
 ```
 
-### 📌 DevOps-এ কাজে লাগে:
+### DevOps-এ কাজে লাগে:
 - Server-এ কোন config file আছে check করতে
 - Log directory-তে কী files জমেছে দেখতে
 - Script deploy করার আগে directory verify করতে
 
-## 🔵 Command 3: `cd` - Change Directory
+## Command 3: `cd` - Change Directory
 
-### 📌 এটা কী করে?
+### এটা কী করে?
 এক directory থেকে আরেক directory-তে **যাওয়ার** কাজ করে। এটাই তোমার সবচেয়ে বেশি ব্যবহার করা command হবে।
 
-### 📌 Syntax:
+### Syntax:
 ```bash
 cd [path]
 ```
 
-### 📌 সব গুরুত্বপূর্ণ `cd` ব্যবহার:
+### সব গুরুত্বপূর্ণ `cd` ব্যবহার:
 
 **১. নির্দিষ্ট directory-তে যাওয়া:**
 ```bash
@@ -165,7 +164,7 @@ $ pwd
 /var/log/nginx
 ```
 
-### 📌 Absolute Path vs Relative Path বোঝো:
+### Absolute Path vs Relative Path বোঝো:
 
 | ধরন | মানে | Example |
 |-----|------|---------|
@@ -174,17 +173,17 @@ $ pwd
 
 > Absolute path = বাড়ির পুরো ঠিকানা (জেলা, উপজেলা, গ্রাম সহ)। Relative path = "পাশের বাড়ি" (আপনি কোথায় আছেন সেটা জেনেই বলা)।
 
-### 📌 DevOps-এ কাজে লাগে:
+### DevOps-এ কাজে লাগে:
 - `/etc/nginx/` তে গিয়ে config edit করতে
 - `/var/log/` এ গিয়ে log দেখতে
 - Script-এর মধ্যে directory change করতে
 
-## 🔵 Command 4: `tree` - Visual Directory Tree
+## Command 4: `tree` - Visual Directory Tree
 
-### 📌 এটা কী করে?
+### এটা কী করে?
 Directory structure টাকে **গাছের মতো করে** সুন্দরভাবে দেখায়। পুরো folder hierarchy একসাথে বোঝা যায়।
 
-### 📌 Installation (অনেক system-এ default থাকে না):
+### Installation (অনেক system-এ default থাকে না):
 ```bash
 # Ubuntu/Debian:
 sudo apt install tree
@@ -193,12 +192,12 @@ sudo apt install tree
 sudo yum install tree
 ```
 
-### 📌 Syntax:
+### Syntax:
 ```bash
 tree [option] [path]
 ```
 
-### 📌 Examples:
+### Examples:
 
 **Basic tree:**
 ```bash
@@ -247,12 +246,12 @@ $ tree /etc/ssh
 └── ssh_host_rsa_key
 ```
 
-### 📌 DevOps-এ কাজে লাগে:
+### DevOps-এ কাজে লাগে:
 - Project structure document করতে
 - Server-এর config folder structure বুঝতে
 - নতুন server setup-এ directory layout verify করতে
 
-## 🧠 সব Command একসাথে Practice করুন
+## সব Command একসাথে Practice করুন
 
 একটা realistic DevOps scenario দেখুন:
 
