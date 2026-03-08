@@ -1,6 +1,6 @@
 # Chapter 1 - Lesson 4: Working with Files & Directories
 
-✅ **Chapter 1 | Lesson 4 of 10**
+**Chapter 1 | Lesson 4 of 10**
 
 
 ## 🎯 আজকের Lesson-এ কী শিখবো?
@@ -18,7 +18,7 @@
 | `rmdir` | খালি (empty) directory delete করে |
 
 
-## 🧠 শুরু করার আগে
+## শুরু করার আগে
 
 Linux-এর file system কে একটা **অফিসের filing cabinet** মনে করো।
 
@@ -31,7 +31,7 @@ Linux-এর file system কে একটা **অফিসের filing cabinet
 ### এটা কী করে?
 `touch` command দিয়ে একটা **নতুন, খালি file** তৈরি করা যায়। এছাড়া যদি file আগে থেকেই থাকে, তাহলে সেটার **last modified time** আপডেট করে।
 
-> 📦 অফিসে একটা নতুন খালি কাগজ বের করে টেবিলে রাখলে কিছু লেখা নেই, কিন্তু কাগজটা তৈরি।
+> অফিসে একটা নতুন খালি কাগজ বের করে টেবিলে রাখলে কিছু লেখা নেই, কিন্তু কাগজটা তৈরি।
 
 ### Syntax:
 ```bash
@@ -65,7 +65,7 @@ touch file1.txt file2.txt file3.txt
 ### এটা কী করে?
 **mkdir = Make Directory।** নতুন folder/directory তৈরি করে।
 
-> 📦 অফিসের cabinet-এ একটা নতুন drawer বা folder খোলা।
+> অফিসের cabinet-এ একটা নতুন drawer বা folder খোলা।
 
 ### Syntax:
 ```bash
@@ -94,7 +94,7 @@ mkdir /home/user/projects/devops/scripts
 
 # -p দিলে:
 mkdir -p /home/user/projects/devops/scripts
-# সব কিছু একসাথে তৈরি হয়ে যাবে ✅
+# সব কিছু একসাথে তৈরি হয়ে যাবে
 ```
 
 ### একসাথে অনেক directory:
@@ -112,7 +112,7 @@ mkdir frontend backend database
 ### এটা কী করে?
 **cp = Copy**। একটা file বা directory-র **duplicate** তৈরি করে নতুন জায়গায়।
 
-> 📦 একটা কাগজ photocopy করে অন্য drawer-এ রাখা। Original জায়গায় থাকে, নতুন জায়গায়ও যায়।
+> একটা কাগজ photocopy করে অন্য drawer-এ রাখা। Original জায়গায় থাকে, নতুন জায়গায়ও যায়।
 
 ### Syntax:
 ```bash
@@ -168,7 +168,7 @@ cp -rv myproject/ /tmp/myproject_backup/
 1. File/directory **অন্য জায়গায় সরায়**
 2. File/directory **rename করে**
 
-> 📦 একটা কাগজ এক drawer থেকে তুলে অন্য drawer-এ রাখা (move), অথবা কাগজের উপরের নাম কেটে নতুন নাম লেখা (rename)।
+> একটা কাগজ এক drawer থেকে তুলে অন্য drawer-এ রাখা (move), অথবা কাগজের উপরের নাম কেটে নতুন নাম লেখা (rename)।
 
 ### Syntax:
 ```bash
@@ -217,35 +217,33 @@ mv myproject myapp
 
 ```
 # দুটো file তৈরি করুন
-echo "আমি নতুন" > new.txt
-echo "আমি পুরনো" > old.txt
+echo "I am new" > new.txt
+echo "I am old" > old.txt
 
 # -n ছাড়া move — old.txt overwrite হয়ে যাবে
 mv new.txt old.txt
 cat old.txt
 
-আমি নতুন   # পুরনো content চলে গেছে! ⚠️
+I am new   # পুরনো content চলে গেছে!
 ```
 ```
 # আবার তৈরি করুন
-echo "আমি নতুন" > new.txt
-echo "আমি পুরনো" > old.txt
+echo "I am new" > new.txt
+echo "I am old" > old.txt
 
 # -n দিয়ে move — old.txt safe থাকবে
 mv -n new.txt old.txt
 cat old.txt
 
-আমি পুরনো   # পুরনো content অক্ষত আছে ✅
+I am old   # পুরনো content অক্ষত আছে
 ```
-
-
 
 ### DevOps-এ কখন ব্যবহার করবে:
 - Config file rename করতে (যেমন `.bak` extension দিতে)
 - Files organized করতে সঠিক folder-এ সরাতে
 - Old deployment folder rename করতে
 
-> 💡 DevOps Tip: Production-এ important config files move করার সময় `-n` ব্যবহার করা ভালো অভ্যাস। ভুলে কোনো critical file overwrite হওয়ার ভয় থাকে না।
+> DevOps Tip: Production-এ important config files move করার সময় `-n` ব্যবহার করা ভালো অভ্যাস। ভুলে কোনো critical file overwrite হওয়ার ভয় থাকে না।
 
 ## 5️⃣ `rm` File বা Directory Delete
 
@@ -254,7 +252,7 @@ cat old.txt
 
 > ⚠️ **সাবধান:** Linux-এ **Recycle Bin নেই**। `rm` করলে file চলে যাবে, ফেরত আনা **অনেক কঠিন বা অসম্ভব।**
 
-> 📦 কাগজ ছিঁড়ে ফেলে দেওয়া। Recycle Bin-এ না, সরাসরি আবর্জনায়।
+> কাগজ ছিঁড়ে ফেলে দেওয়া। Recycle Bin-এ না, সরাসরি আবর্জনায়।
 
 ### Syntax:
 ```bash
@@ -290,7 +288,7 @@ rm -rf oldfolder/
 ```
 > `-r` = recursive (directory সহ), `-f` = force (কোনো প্রশ্ন না করে)
 
-### ⚠️ WARNING - এই Command কখনো ভুলেও করো না:
+### ⚠️ WARNING - এই Command কখনো ভুলেও run করবেন না:
 ```bash
 rm -rf /          # পুরো system মুছে যাবে!
 rm -rf /*         # সব files মুছে যাবে!
@@ -312,12 +310,12 @@ rm -rf ~/         # আপনার পুরো home directory মুছে য
 - Failed deployment folder সরাতে
 
 
-## 6️⃣ `rmdir` - খালি Directory Delete করো
+## 6️⃣ `rmdir` - খালি/empty Directory Delete করে
 
 ### এটা কী করে?
 **rmdir = Remove Directory**। শুধুমাত্র **সম্পূর্ণ খালি** বা empty directory delete করে। ভেতরে কিছু থাকলে error দেবে।
 
-> 📦 একটা সম্পূর্ণ খালি drawer সরিয়ে ফেলা। ভেতরে কিছু থাকলে সরানো যাবে না।
+> একটা সম্পূর্ণ খালি drawer সরিয়ে ফেলা। ভেতরে কিছু থাকলে সরানো যাবে না।
 
 ### Syntax:
 ```bash
@@ -341,9 +339,8 @@ rmdir: failed to remove 'notempty': Directory not empty
 # Error! কারণ ভেতরে file আছে
 ```
 
-> 💡 **Practical Tip:** বাস্তবে `rmdir` কম ব্যবহার হয়। বেশিরভাগ সময় `rm -r` ব্যবহার করা হয়। তবে `rmdir` safe, ভুলে ভেতরের কিছু delete হওয়ার ভয় নেই।
+> **Practical Tip:** বাস্তবে `rmdir` কম ব্যবহার হয়। বেশিরভাগ সময় `rm -r` ব্যবহার করা হয়। তবে `rmdir` safe, ভুলে ভেতরের কিছু delete হওয়ার ভয় নেই।
 
----
 
 ## 🔄 সব Commands একসাথে - একটা Real DevOps Scenario
 
