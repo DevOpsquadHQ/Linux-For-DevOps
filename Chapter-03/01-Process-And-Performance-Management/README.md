@@ -138,3 +138,180 @@ echo $PPID
 ```
 1801
 ```
+
+### 3️⃣ `ps` - Process দেখা
+
+**কী করে:** বর্তমানে চলা process-গুলো দেখায়
+
+```bash
+ps
+```
+
+**Output:**
+```
+  PID TTY          TIME CMD
+ 1842 pts/0    00:00:00 bash
+ 1901 pts/0    00:00:00 ps
+```
+
+---
+
+### 4️⃣ `ps aux` - সব process বিস্তারিত দেখা
+
+**Syntax breakdown:**
+```
+ps aux
+│  ││└── x = terminal ছাড়াও চলা process দেখাও
+│  │└─── u = user-friendly format (মালিক, CPU%, MEM% দেখাও)
+│  └──── a = সব user-এর process দেখাও
+└─────── ps = process status
+```
+
+```bash
+ps aux
+```
+
+**Output (কিছু অংশ):**
+```
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1 169536 13100 ?        Ss   10:00   0:01 /sbin/init
+root         2  0.0  0.0      0     0 ?        S    10:00   0:00 [kthreadd]
+rahul     1842  0.0  0.1  22756  5432 pts/0    Ss   10:05   0:00 bash
+rahul     1950  0.0  0.1  37348  3240 pts/0    R+   10:10   0:00 ps aux
+```
+
+### Column গুলোর মানে কি:
+
+| Column | মানে |
+|--------|------|
+| USER | কোন user-এর process |
+| PID | Process ID |
+| %CPU | কতটুকু CPU ব্যবহার করছে |
+| %MEM | কতটুকু Memory ব্যবহার করছে |
+| STAT | Process-এর অবস্থা (R, S, Z...) |
+| COMMAND | কোন command চলছে |
+
+
+### 5️⃣ `pstree` - Family Tree আকারে দেখা
+
+**কী করে:** কোন process কার থেকে জন্মেছে সেটা গাছের মতো (ট্রি আকারে) দেখায়
+
+```bash
+pstree
+```
+
+**Output (কিছু অংশ):**
+```
+systemd─┬─sshd───sshd───bash───pstree
+        ├─cron
+        ├─nginx───nginx
+        └─2*[dhclient]
+```
+
+> **DevOps-এ কাজে লাগে:** কোন service কার child process সেটা দেখতে। সমস্যা diagnose করতে।
+
+
+### 6️⃣ একটা Background Process তৈরি করে দেখুন
+
+```bash
+# Background-এ একটা process রান করুন
+sleep 200 &
+
+# PID দেখাবে
+# [1] 2045
+
+# এখন confirm করুন যে process চলছে
+ps aux | grep sleep
+```
+
+**Output:**
+
+```
+rahul     2045  0.0  0.0  12060   576 pts/0    S    10:15   0:00 sleep 200
+```
+
+---
+
+### 7️⃣ `/proc` filesystem - Process-এর ভেতরে উঁকি মারা
+
+Linux-এ প্রতিটা process-এর জন্য `/proc/<PID>/` নামে একটা folder তৈরি হয়।
+
+```bash
+# আপনার bash-এর PID দিয়ে দেখুন
+cat /proc/$$/status
+```
+
+**Output (কিছু অংশ):**
+
+```
+Name:   bash
+State:  S (sleeping)
+Pid:    1842
+PPid:   1801
+Threads: 1
+VmRSS:  5432 kB     ← RAM ব্যবহার
+```
+
+```bash
+# একটা process কোন files খুলে রেখেছে
+ls /proc/$$/fd
+```
+
+> **এটা অনেক powerful!** DevOps-এ কোনো process memory leak করলে বা hang করলে `/proc` দেখে diagnose করা হয়।
+
+
+## Process Types - DevOps এর দৃষ্টিকোণ থেকে
+
+| Type | উদাহরণ | বৈশিষ্ট্য |
+|------|---------|-----------|
+| **System Process** | systemd, kernel threads | root চালায়, সবসময় চলে |
+| **Daemon Process** | nginx, sshd, cron | Background-এ চলে, terminal নেই |
+| **User Process** | bash, vim, python script | User চালায় |
+| **Zombie Process** | defunct process | কাজ শেষ কিন্তু তখনো আছে |
+| **Orphan Process** | parent মারা গেছে | systemd adopt করে নেয় |
+
+
+## Real DevOps Scenario
+
+> **সমস্যা:** Server slow হয়ে গেছে। কে CPU খাচ্ছে?
+
+```bash
+# Step 1: সব process দেখুন CPU অনুযায়ী sort করে
+ps aux --sort=-%cpu | head -10
+
+# Step 2: সমস্যাজনক process-এর PID নিন
+# Step 3: সেই PID দিয়ে বিস্তারিত দেখুন
+cat /proc/<PID>/status
+
+# Step 4: কে এই process চালু করেছে?
+ps -p <PID> -o pid,ppid,user,cmd
+```
+
+
+## 📝 Quick Summary
+
+- **Process** = চলমান program - RAM ও CPU ব্যবহার করে
+- **PID** = প্রতিটা process-এর unique ID নম্বর
+- **PPID** = Parent process-এর ID - সব process কোনো না কোনো parent থেকে জন্মায়
+- **PID 1 = systemd** - সব process-এর মূল বাবা
+- **Foreground** = terminal আটকায় | **Background** = terminal আটকায় না (`&` দিলে)
+- **Process States:** R (running), S (sleeping), T (stopped), Z (zombie)
+- `/proc/<PID>/` = প্রতিটা process-এর live তথ্য এখানে থাকে
+
+
+## 🏋️ Practice Tasks
+
+এগুলো নিজে করে দেখুন:
+
+1. **`echo $$`** রান করুন - আপনার bash-এর PID দেখুন। তারপর **`echo $PPID`** রান করুন - parent PID দেখুন।
+
+2. **`sleep 500 &`** দিয়ে একটা background process তৈরি করুন। তারপর **`ps aux | grep sleep`** দিয়ে confirm করুন সেটা চলছে।
+
+3. **`cat /proc/$$/status`** রান করুন এবং `Name`, `State`, `Pid`, `PPid` এই চারটা line খুঁজে বের করুন।
+
+---
+
+## ⏭️ What's Next?
+
+**Chapter 3 - Lesson 2: Viewing Processes**
+> `ps`, `top`, `htop`, `pgrep` - process দেখার সব tools বিস্তারিতভাবে শিখবো। `top` command-এর প্রতিটা column বুঝবো এবং real-time monitoring করতে শিখবো।
