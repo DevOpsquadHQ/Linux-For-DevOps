@@ -180,17 +180,17 @@ sudo usermod [options] username
 
 ### Full forms of options
 
-`-l` → **login**
-`-d` → **directory**
-`-s` → **shell**
-`-c` → **comment**
-`-a` → **append**
-`-G` → **groups**
-`-L` → **lock**
-`-U` → **unlock**
-`-e` → **expiredate**
-`-aG` = **append to Groups**
-`-G` = **Groups**
+- `-l` → **login**
+- `-d` → **directory**
+- `-s` → **shell**
+- `-c` → **comment**
+- `-a` → **append**
+- `-G` → **groups**
+- `-L` → **lock**
+- `-U` → **unlock**
+- `-e` → **expiredate**
+- `-aG` = **append to Groups**
+- `-G` = **Groups**
 
 ### Example 1: User-এর Shell পরিবর্তন করা
 
