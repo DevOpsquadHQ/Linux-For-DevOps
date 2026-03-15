@@ -178,6 +178,19 @@ sudo usermod [options] username
 | `-U` | Account unlock করো |
 | `-e 2026-03-17` | Expiry date পরিবর্তন করো |
 
+### Full forms of options
+
+`-l` → **login**
+`-d` → **directory**
+`-s` → **shell**
+`-c` → **comment**
+`-a` → **append**
+`-G` → **groups**
+`-L` → **lock**
+`-U` → **unlock**
+`-e` → **expiredate**
+`-aG` = **append to Groups**
+`-G` = **Groups**
 
 ### Example 1: User-এর Shell পরিবর্তন করা
 
