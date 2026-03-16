@@ -1,7 +1,7 @@
-# Final Assessment Test
+# Chapter 1 - Final Assessment 
 
+**Total 20 Practice Tasks**
 
-### Chapter 1 - 20 Practice Tasks
 
 > ⚠️ **নিয়ম:** প্রতিটা task নিজে terminal-এ try করতে হবে। উত্তর মুখস্থ না করে বুঝে বুঝে করার চেস্টা করুন। এর পরে এই এ্যাসাইনমেন্টের শেষে উত্তর দেয়া আছে সেখান থেকে মিলিয়ে দেখতে পারেন।
 

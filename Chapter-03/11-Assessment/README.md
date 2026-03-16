@@ -1,5 +1,6 @@
-# 🎯 Chapter 3 - Production-Grade Assessment
+# Chapter 3 - Final Assessment 
 
+**Total 13 Practice Tasks**
 
 
 আপনি Chapter 3 শেষ করেছেন, এটা সত্যিই দারুণ! 🎉 আপনি অনেকদূর এগিয়ে এসেছেন এটা অনেক ভালো প্রগ্রেস। তবে এখানে থেমে থাকলেই হবে না আমাদের আরো সামনে এগোতে হবে। 
