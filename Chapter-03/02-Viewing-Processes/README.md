@@ -472,7 +472,7 @@ ps -p 1023 -o pid,ppid,user,pcpu,pmem,stat,comm
 
 ## 🏋️ Practice Tasks
 
-এখন তুমি নিজে চেষ্টা করো:
+এখন নিজে নিজে করার চেষ্টা করুন:
 
 **Task 1:**
 ```bash
