@@ -319,4 +319,4 @@ ps -p <PID> -o pid,ppid,user,cmd
 **Chapter 3 - Lesson 2: Viewing Processes**
 > `ps`, `top`, `htop`, `pgrep` - process দেখার সব tools বিস্তারিতভাবে শিখবো। `top` command-এর প্রতিটা column বুঝবো এবং real-time monitoring করতে শিখবো।
 
-[Next Lesson | Viewing Processes](./02-Viewing-Processes)
+[Next Lesson | Viewing Processes](../02-Viewing-Processes)
