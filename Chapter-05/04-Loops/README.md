@@ -3,7 +3,7 @@
 **Chapter 5 | Lesson 4 of 11**
 
 
-আগের lesson-এ আমরা শিখেছিলাম **Conditionals** if, elif, else দিয়ে decision নেওয়া। আজকে শিখবো **Loops** একটা কাজ বারবার automatically করার technique। DevOps-এ loops ছাড়া scripting প্রায় অসম্ভব! চলুন শুরু করি।
+আগের lesson-এ আমরা শিখেছিলাম **Conditionals** if, elif, else দিয়ে decision নেওয়া। আজকে শিখবো **Loops** মানে একটা কাজ বারবার automatically করার technique। DevOps-এ loops ছাড়া scripting প্রায় অসম্ভব! চলুন শুরু করি।
 
 
 ## Loop কী? কেন দরকার?

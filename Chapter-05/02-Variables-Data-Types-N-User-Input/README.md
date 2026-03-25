@@ -378,7 +378,7 @@ Environment: dev
 - `export` দিয়ে Environment Variable তৈরি হয়
 - Special variables: `$0`, `$1`, `$#`, `$@`, `$?`, `$$`
 - `$?` দিয়ে command সফল হয়েছে কিনা check করা যায়
-- `read` দিয়ে user থেকে input নেওয়া যায়
+- `read` দিয়ে user থেকে input নেওয়া হয়
 - `read -p` (prompt), `read -s` (secret), `read -t` (timeout)
 - `${var:-default}` দিয়ে default value set করা যায়
 
