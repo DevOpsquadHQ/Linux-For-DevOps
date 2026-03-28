@@ -3,7 +3,7 @@
 **Chapter 3 | Lesson 2 of 10**
 
 
-## প্রথমে একটু মনে করার চেস্টা করি...
+### প্রথমে একটু মনে করার চেস্টা করি...
 
 আগের lesson-এ আমরা শিখেছিলাম যে **process** হলো একটি running program, যার নিজের PID আছে, PPID আছে, এবং সে foreground বা background-এ চলতে পারে।
 
@@ -57,7 +57,7 @@ ps
 - **CMD** → command-এর নাম
 
 
-#### 2️⃣ সিস্টেমের সব process দেখুন (সবচেয়ে বেশি ব্যবহৃত):
+#### সিস্টেমের সব process দেখুন (সবচেয়ে বেশি ব্যবহৃত):
 
 ```bash
 ps aux
@@ -83,7 +83,7 @@ munir    1580  0.0  0.0   8936   812 pts/0    R+   10:10   0:00 ps aux
 | `%CPU` | কতটুকু CPU ব্যবহার করছে |
 | `%MEM` | কতটুকু RAM ব্যবহার করছে |
 | `VSZ` | Virtual memory size (KB) |
-| `RSS` | Actual RAM usage (KB) |
+| `RSS` |  Resident Set Size - Actual RAM usage (KB) |
 | `TTY` | Terminal (? মানে কোনো terminal নেই - background service) |
 | `STAT` | Process-এর অবস্থা (নিচে বিস্তারিত) |
 | `START` | কখন শুরু হয়েছে |
@@ -164,7 +164,7 @@ ps -eo pid,user,pcpu,pmem,comm
  1500 munir    0.0  0.1 bash
 ```
 
-> এখানে `-e` মানে সব process, `-o` মানে output format নিজের মতো করে সাজিয়ে নেয়া।
+> এখানে `-e for Everything` মানে সব process, `-o` মানে output format নিজের মতো করে সাজিয়ে নেয়া।
 
 
 ## Tool 2: `top` - Live Process Monitor
@@ -186,7 +186,7 @@ top
 ```
 top - 10:30:01 up 2:15,  2 users,  load average: 0.15, 0.10, 0.08
 Tasks: 120 total,   1 running, 119 sleeping,   0 stopped,   0 zombie
-%Cpu(s):  2.3 us,  0.5 sy,  0.0 ni, 96.8 id,  0.3 wa,  0.0 hi,  0.1 si
+%Cpu(s):  2.3 us,  0.5 sy,  0.0 ni, 96.8 id,  0.3 wa,  0.0 hi,  0.1 si 0.0 st
 MiB Mem :   3900.0 total,   1200.0 free,   1500.0 used,   1200.0 buff/cache
 MiB Swap:   2048.0 total,   2048.0 free,      0.0 used.   2100.0 avail Mem
 
@@ -208,6 +208,67 @@ top - 10:30:01 up 2:15,  2 users,  load average: 0.15, 0.10, 0.08
 - `2 users` → ২ জন logged in
 - `load average: 0.15, 0.10, 0.08` → গত ১, ৫, ১৫ মিনিটের average load
 
+Load Average মানে হলো কতগুলো process CPU-র জন্য অপেক্ষা করছে বা CPU ব্যবহার করছে, তার গড় সংখ্যা।
+
+
+মনে করেন একটা টোল বুথ (highway-র মতো)। সেখানে ১টি কাউন্টার আছে (১টি CPU core)।
+
+- Load **1.0** মানে → কাউন্টারে ঠিক ১টি গাড়ি - perfectly busy
+- Load **0.5** মানে → অর্ধেক সময় খালি - 50% resources খালি/ফ্রি আছে
+- Load **2.0** মানে → ১টি গাড়ি যাচ্ছে + ১টি অপেক্ষায় - overloaded
+
+
+### CPU Core সংখ্যা কেন গুরুত্বপূর্ণ?
+
+> Load Average সবসময় CPU core সংখ্যার সাথে তুলনা করতে হয়।
+
+```bash
+# আপনার CPU কতটি core আছে দেখুন
+nproc
+# অথবা
+lscpu | grep "CPU(s)"
+```
+
+| CPU Core | Load 1.0 মানে | Load 4.0 মানে |
+|----------|--------------|--------------|
+| 1 core | 100% busy ⚠️ | 400% overloaded 🔴 |
+| 4 core | 25% busy ✅ | 100% busy ⚠️ |
+| 8 core | 12.5% busy ✅ | 50% busy ✅ |
+
+**সহজ নিয়ম:**
+> **Load Average ÷ CPU Core = আসল চাপ**।
+> যদি ফলাফল **1.0 এর নিচে** থাকে → সব ঠিক আছে।
+
+
+## আপনার Example টা দেখো
+
+```
+load average: 0.15, 0.10, 0.08
+```
+
+মনে করেন আপনার **4 core CPU** আছে তাহলে হিসেবটা হবে
+
+| সময় | Load | Core | চাপ | অবস্থা |
+|------|------|------|-----|--------|
+| ১ মিনিট | 0.15 | 4 | 0.15÷4 = 3.7% | একদম ফাঁকা |
+| ৫ মিনিট | 0.10 | 4 | 0.10÷4 = 2.5% | একদম ফাঁকা |
+| ১৫ মিনিট | 0.08 | 4 | 0.08÷4 = 2% | একদম ফাঁকা |
+
+> এই server-এ কোনো চাপই নেই! 😄
+
+
+### DevOps-এ কিভাবে মনে রাখবেন?
+
+```bash
+# Rule of thumb:
+Load Average > CPU core সংখ্যা = সমস্যা আছে 🔴
+Load Average = CPU core সংখ্যা = সীমানায় আছে ⚠️
+Load Average < CPU core সংখ্যা = সব ঠিক আছে ✅
+```
+
+> সোজা কথায় Load Average হলো CPU-র উপর চাপের রিপোর্ট কার্ড, আর তিনটা সংখ্যা হলো গত ১, ৫, ১৫ মিনিটের গড়।
+
+
 **Line 2: Task summary**
 ```
 Tasks: 120 total,   1 running, 119 sleeping,   0 stopped,   0 zombie
@@ -216,12 +277,20 @@ Tasks: 120 total,   1 running, 119 sleeping,   0 stopped,   0 zombie
 
 **Line 3: CPU usage**
 ```
-%Cpu(s):  2.3 us,  0.5 sy,  0.0 ni, 96.8 id,  0.3 wa
+%Cpu(s):  2.3 us,  0.5 sy,  0.0 ni, 96.8 id,  0.3 wa, 0.0 st 
 ```
-- `us` → user processes কতটুকু CPU নিচ্ছে
-- `sy` → system/kernel কতটুকু নিচ্ছে
-- `id` → CPU কতটুকু **idle** (খালি) - এটা বেশি হলে ভালো
-- `wa` → disk I/O-র জন্য কতটুকু CPU অপেক্ষা করছে
+
+| Code | পুরো নাম | মানে |
+|------|----------|------|
+| `us` | User Space | আপনার normal programs যতটুকু CPU নিচ্ছে |
+| `sy` | System/Kernel | Linux kernel যতটুকু CPU নিচ্ছে |
+| `ni` | Nice | ইচ্ছাকৃতভাবে কম priority দেওয়া processes এর CPU usage |
+| `id` | Idle | CPU এখন সম্পূর্ণ খালি, কিছুই করছে না |
+| `wa` | Wait (I/O) | Disk/Network এর জন্য CPU অপেক্ষা করছে |
+| `hi` | Hardware Interrupt | Hardware থেকে আসা interrupt handle করতে CPU ব্যবহার |
+| `si` | Software Interrupt | Software থেকে আসা interrupt handle করতে CPU ব্যবহার |
+| `st` | Steal | Virtual machine থেকে CPU চুরি হয়ে যাচ্ছে |
+
 
 **Line 4 & 5: Memory**
 - RAM এবং Swap কতটুকু used/free
@@ -260,7 +329,7 @@ top -b -n 1
 - `-n 1` → মাত্র ১ বার output দিয়ে বন্ধ হয়ে যাবে
 
 
-## Tool 3: `htop` - top-এর উন্নত Version
+## Tool 3: `htop` top-এর improved Version
 
 ### এটা কী?
 

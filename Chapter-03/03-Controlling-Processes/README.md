@@ -101,7 +101,7 @@ Process চলে গেছে!
 
 ### উদাহরণ ২: Force kill (SIGKILL)
 
-কখনো কখনো process SIGTERM ignore করে, তখন SIGKILL ব্যবহার করো:
+কখনো কখনো process SIGTERM ignore করে, তখন SIGKILL ব্যবহার করুন:
 
 ```bash
 sleep 1000 &
@@ -164,13 +164,17 @@ killall [options] <process_name>
 
 ### উদাহরণ ১: নাম দিয়ে kill
 
+কয়েকটা sleep রান করুন
+
 ```bash
-# কয়েকটা sleep চালাও
 sleep 500 &
 sleep 600 &
 sleep 700 &
+```
 
-# সবগুলো একসাথে বন্ধ করো
+সবগুলো process একসাথে বন্ধ/kill করুন
+
+```bash
 killall sleep
 ```
 
@@ -303,19 +307,18 @@ pkill nginx       # তারপর kill করো
 
 ## SIGTERM vs SIGKILL - কোনটা কখন?
 
-```
-SIGTERM (15) ব্যবহার করুন যখন:
-✅ Process কে gracefully বন্ধ করতে চাও
-✅ Process যেন open file, connection ঠিকমতো বন্ধ করতে পারে
-✅ Data loss এড়াতে চাও
-✅ Production environment এ
+SIGTERM (15) ব্যবহার করবেন যখন:
+- Process কে gracefully বন্ধ করতে চান
+- Process যেন open file, connection ঠিকমতো বন্ধ করতে পারে
+- Data loss এড়াতে চান
+- Production environment এ
 
-SIGKILL (9) ব্যবহার করুন যখন:
-⚡ Process SIGTERM ignore করছে
-⚡ Process hang/freeze হয়ে গেছে
-⚡ Zombie process (এখানেও কাজ না করতে পারে!)
-⚡ Emergency তে
-```
+SIGKILL (9) ব্যবহার করবেন যখন:
+- Process SIGTERM ignore করছে
+- Process hang/freeze হয়ে গেছে
+- Zombie process (এখানে কাজ নাও করতে পারে!)
+- Emergency তে
+
 
 > ⚠️ **সতর্কতা:** `kill -9` সবসময় ব্যবহার করা যাবে না! এতে database corruption বা data loss হতে পারে। সবসময় আগে `kill -15` try করুন।
 
@@ -397,34 +400,45 @@ fi
 
 **Task 1:**
 ```
-- Terminal এ `sleep 9999 &` কমান্ড দিয়ে ৩টা process চালাও
-- `ps aux | grep sleep` দিয়ে PID গুলো দেখো
+- Terminal এ `sleep 9999 &` কমান্ড দিয়ে ৩টা process রান করুন
+- `ps aux | grep sleep` দিয়ে PID গুলো দেখুন
 - একটাকে `kill` দিয়ে, বাকিগুলো `killall` দিয়ে বন্ধ করুন
 - Verify করুন যে সব বন্ধ হয়েছে
 ```
 
 **Task 2:**
 ```
-- `sleep 5000 &` চালাও
+- `sleep 5000 &` রান করুন
 - `kill -19 <PID>` দিয়ে pause করুন
-- `ps aux | grep sleep` দিয়ে status দেখো (T দেখাবে)
+- `ps aux | grep sleep` দিয়ে status দেখুন (T দেখাবে)
 - `kill -18 <PID>` দিয়ে resume করুন
 - আবার status check করুন
 ```
 
 **Task 3:**
 ```
-- `pgrep sleep` দিয়ে running sleep process এর PID দেখো
+- `pgrep sleep` দিয়ে running sleep process এর PID দেখুন
 - `pkill -v sleep` দিয়ে verbose mode এ সব বন্ধ করুন
-- `kill -l` দিয়ে সব signal এর list দেখো
+- `kill -l` দিয়ে সব signal এর list দেখুন
 ```
 
+---
 
 ## ⏭️ What's Next?
 
 **Chapter 3 - Lesson 4: Background & Foreground Jobs**
 `bg`, `fg`, `jobs`, `nohup`, `&` কীভাবে process কে background এ পাঠানো যায়, terminal বন্ধ করলেও process চালু রাখা যায়, এবং jobs manage করা যায়!
 
----
 
-আপনি এখন process control এর master হয়ে যাচ্ছেন! 🎉 Practice tasks গুলো করুন এবং কোনো সমস্যা হলে error কমেন্টে দিন, আমি ইনশাআল্লাহ solve করে দিবো। *Happy Learning* 🚀
+আপনি এখন process control এর master হয়ে যাচ্ছেন! Practice tasks গুলো করুন এবং কোনো সমস্যা হলে error কমেন্টে দিন, আমি ইনশাআল্লাহ solve করে দিবো। *Happy Learning* 🚀
+
+<table width="100%">
+  <tr>
+    <td align="left">
+      <a href="../02-Viewing-Processes">← Viewing Processes</a>
+    </td>
+    <td align="right">
+      <a href="../04-Background-Foreground-Jobs">Background &amp; Foreground Jobs →</a>
+    </td>
+  </tr>
+</table>
