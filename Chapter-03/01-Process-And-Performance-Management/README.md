@@ -112,7 +112,7 @@ Terminated (সম্পূর্ণ শেষ)
 
 ### `echo $$` - নিজের PID দেখা
 
-**কী করে:** বর্তমান shell-এর PID দেখায়
+**কী করে:** আপনার বর্তমান shell-এর PID দেখায়
 
 ```bash
 echo $$
@@ -122,7 +122,7 @@ echo $$
 ```
 1842
 ```
-> তোমার bash-এর PID হলো 1842
+> আপনার bash-এর PID হলো 1842
 
 
 ### `echo $PPID` - Parent PID দেখা
@@ -140,7 +140,7 @@ echo $PPID
 
 ### `ps` - Process দেখা
 
-**কী করে:** বর্তমানে চলা process-গুলো দেখায়
+> শুধু `ps` রান করলে current terminal session-এ চলা process গুলো দেখায় যেটায় bash (আপনার shell) এবং ps নিজেই থাকে।
 
 ```bash
 ps
@@ -160,10 +160,16 @@ ps
 ```
 ps aux
 │  ││└── x = terminal ছাড়াও চলা process দেখাও
-│  │└─── u = user-friendly format (মালিক, CPU%, MEM% দেখাও)
-│  └──── a = সব user-এর process দেখাও
+│  │└─── u = user-friendly format (owner, CPU%, MEM% etc)
+│  └──── a = সব user-এর process দেখাও। 
 └─────── ps = process status
 ```
+
+- `a` - শুধু terminal (TTY) এর সাথে attached process গুলো। অর্থাৎ যে process গুলো কোনো না কোনো terminal থেকে চালু হয়েছে।
+- `x` -  terminal ছাড়া যে process গুলো চলছে সেগুলোও দেখাও। অর্থাৎ background-এ চলা system/daemon process গুলো যেগুলোর কোনো terminal নেই।
+- এককথায় ax মিলে system-এর সকল process দেখায়।
+
+> TTY column-এ "?" দেখলে বুঝবেন, এই process-এর কোনো terminal নেই
 
 ```bash
 ps aux
@@ -274,6 +280,57 @@ ls /proc/$$/fd
 | **Orphan Process** | parent মারা গেছে | systemd adopt করে নেয় |
 
 
+## "System Process" মানে কী?
+
+**System Process** মানে হলো যে process গুলো কোনো terminal থেকে user manually চালায়নি, বরং OS বা system নিজে চালু করেছে।
+
+এর মধ্যে পড়ে:
+- kernel-এর নিজের process (যেমন `kthreadd`, `ksoftirqd`)
+- system চালু রাখার process (যেমন `systemd`, `init`)
+- Daemon process গুলোও (যেমন `sshd`, `nginx`, `cron`)
+
+> Daemon আলাদা কিছু না, এটা System Process-এরই একটা type
+
+```
+System Process
+├── Kernel Threads      → kernel নিজে চালায় (kthreadd, ksoftirqd)
+├── Init/Systemd        → সব process-এর জনক (PID 1)
+└── Daemon Processes    → background-এ service চালায়
+        ├── sshd        → SSH connection handle করে
+        ├── nginx       → Web server
+        ├── crond       → Scheduled tasks চালায়
+        ├── mysqld      → Database চালায়
+        └── dockerd     → Docker চালায়
+```
+
+## Daemon আসলে কী?
+
+**Daemon** হলো এমন process যেটা -
+- Background-এ চলে (কোনো terminal নেই, TTY = `?`)
+- সবসময় চলতে থাকে (system চলার পুরো সময় জুড়ে)
+- কোনো user input ছাড়াই কাজ করে
+- সাধারণত নাম শেষে `d` থাকে - `sshd`, `httpd`, `crond`, `mysqld`
+
+
+## তাহলে পার্থক্যটা কোথায়?
+
+| | Kernel Thread | Daemon |
+|---|---|---|
+| কে চালায়? | Kernel নিজে | Systemd / init |
+| কী কাজ করে? | OS-এর core কাজ | Service/Software চালায় |
+| উদাহরণ | `kthreadd`, `migration/0` | `sshd`, `nginx`, `crond` |
+| TTY | `?` | `?` |
+| User | `root` বা `kernel` | `root` বা service user |
+
+
+
+- System Process = Kernel threads + Daemon - সবই terminal ছাড়া background-এ চলে
+- Daemon = System Process-এরই একটা **subtype** - software/service চালু রাখে
+- Daemon নিজেই একটা process, systemd-এর অধীনে চলে
+
+> সহজ কথায়ঃ সব Daemon হলো System Process, কিন্তু সব System Process Daemon না।
+
+
 ## Real DevOps Scenario
 
 > **সমস্যা:** Server slow হয়ে গেছে। কে CPU খাচ্ছে?
@@ -306,18 +363,18 @@ ps -p <PID> -o pid,ppid,user,cmd
 
 এগুলো নিজে করে দেখুন:
 
-1. **`echo $$`** রান করুন - আপনার bash-এর PID দেখুন। তারপর **`echo $PPID`** রান করুন - parent PID দেখুন।
+1. `echo $$` রান করুন - আপনার bash-এর PID দেখুন। তারপর `echo $PPID` রান করুন - parent PID দেখুন।
 
-2. **`sleep 500 &`** দিয়ে একটা background process তৈরি করুন। তারপর **`ps aux | grep sleep`** দিয়ে confirm করুন সেটা চলছে।
+2. `sleep 500 &` দিয়ে একটা background process তৈরি করুন। তারপর `ps aux | grep sleep` দিয়ে confirm করুন সেটা চলছে।
 
-3. **`cat /proc/$$/status`** রান করুন এবং `Name`, `State`, `Pid`, `PPid` এই চারটা line খুঁজে বের করুন।
+3. `cat /proc/$$/status` রান করুন এবং `Name`, `State`, `Pid`, `PPid` এই চারটা line খুঁজে বের করুন।
 
----
+> `ps aux | grep sleep` রান করলে হেডার চলে যায়। হেডার সহ দেখতে চাইলে `ps aux | grep -E "USER|sleep"`। অথবা `grep` এর আগে header আলাদা করে দেখতে পারি যেমনঃ `ps aux | head -1; ps aux | grep sleep`
 
 ## ⏭️ What's Next?
 
 **Chapter 3 - Lesson 2: Viewing Processes**
-> `ps`, `top`, `htop`, `pgrep` - process দেখার সব tools বিস্তারিতভাবে শিখবো। `top` command-এর প্রতিটা column বুঝবো এবং real-time monitoring করতে শিখবো।
+> `ps`, `top`, `htop`, `pgrep` process দেখার সব tools বিস্তারিতভাবে শিখবো। `top` command-এর প্রতিটা column বুঝবো এবং real-time monitoring করতে শিখবো।
 
 
 <table width="100%">
