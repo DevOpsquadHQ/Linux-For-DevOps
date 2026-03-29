@@ -1,4 +1,4 @@
-# Chapter 3 - Lesson 5: Process Priority (nice, renice)
+# Chapter 3 - Lesson 5: Process Priority
 
 **Chapter 3 | Lesson 5 of 10**
 
@@ -12,7 +12,7 @@
 - DevOps-এ এটা কোথায় কাজে লাগে?
 
 
-## Process Priority কী? - সহজ ভাষায়
+## Process Priority কী?
 
 মনে করেন আপনি একটি restaurant-এর manager। রান্নাঘরে একজনই chef আছে। একসাথে অনেক order এসেছে:
 
@@ -20,18 +20,16 @@
 - Table 2: Normal guest-এর order
 - Table 3: Staff-এর খাবার
 
-আপনি কি সবাইকে **সমান priority** দিবেন? না! VIP-কে আগে serve করবেন, এরপর Normal guest কে serve করবেন।
+আপনি কি সবাইকে সমান priority দিবেন? না! VIP-কে আগে serve করবেন, এরপর Normal guest কে serve করবেন।
 
-Linux-এও ঠিক এটাই হয়। CPU হলো সেই **একজন chef**, আর processes হলো **orders**। Linux kernel decide করে কোন process আগে CPU পাবে, এটাই হলো **Process Priority**।
+Linux-এও ঠিক এটাই হয়। CPU হলো সেই একজন chef, আর processes হলো orders। Linux kernel decide করে কোন process আগে CPU পাবে আর কোন process পরে CPU পাবে, এই ডিসিশন-ই হলো Process Priority।
 
 
 ## Nice Value কী?
 
-Linux-এ priority নির্ধারণ হয় **"Nice Value"** দিয়ে।
+Linux-এ priority নির্ধারণ হয় "Nice Value" দিয়ে।
 
-```
-Nice Value Range: -20 থেকে +19
-```
+> Nice Value Range: -20 থেকে +19
 
 | Nice Value | অর্থ | কে ব্যবহার করে |
 |------------|------|----------------|
@@ -44,7 +42,7 @@ Nice Value Range: -20 থেকে +19
 
 > যত **বেশি (positive)**, priority তত **কম**।
 >
-> মানে, "nice" মানে হলো অন্যদের প্রতি ভদ্র - নিজে কম নেওয়া! 😄
+> মানে, "nice" মানে হলো অন্যদের প্রতি বেশী ভদ্রতা দেখানো আর নিজে কম নেওয়া! 😄
 
 
 ## Priority কীভাবে দেখবো?
@@ -76,7 +74,7 @@ ps -eo pid,ni,pri,comm
 top
 ```
 
-`top` রান করলে **NI** column-এ nice value দেখতে পাবে।
+`top` রান করলে **NI** column-এ nice value দেখতে পাবেন।
 
 ```
   PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
@@ -87,7 +85,7 @@ top
 
 ## Command 1: `nice` - নতুন Process শুরু করা নির্দিষ্ট Priority দিয়ে
 
-### সহজ ভাষায়:
+
 আপনি যখন কোনো program রান করেন, তখন থেকেই তার priority set করতে চাইলে `nice` ব্যবহার করুন।
 
 ### Syntax:
@@ -156,7 +154,6 @@ sudo nice -n -10 bash critical_task.sh
 
 ## Command 2: `renice` - চলমান Process-এর Priority পরিবর্তন
 
-### সহজ ভাষায়:
 
 মনে করেন একটি process আগেই চলছে, এখন আপনি তার priority পরিবর্তন করতে চান। `nice` দিয়ে আর হবে না - এখন দরকার `renice`।
 
@@ -176,7 +173,7 @@ renice -n <nice_value> -p <PID>
 
 ### Example 1: একটি process-এর priority কমানো
 
-প্রথমে একটি process চালাই:
+প্রথমে একটি process রান করি:
 ```bash
 sleep 200 &
 ```
@@ -188,7 +185,7 @@ sleep 200 &
 
 এখন PID `3456` এর priority পরিবর্তন করি:
 ```bash
-renice -n 15 -p 3456
+sudo renice -n 15 -p 3456
 ```
 
 **Output:**
@@ -220,7 +217,6 @@ sudo renice -n -5 -p 3456
 3456 (process ID) old priority 15, new priority -5
 ```
 
----
 
 ### Example 3: একটি পুরো User-এর সব process-এর priority পরিবর্তন
 
@@ -263,7 +259,7 @@ sudo renice -n 5 -g developers
 
 ```bash
 # রাত ২টায় backup চলে, কিন্তু সে CPU নিয়ে নিলে web server slow হবে
-# তাই backup-কে কম priority দাও
+# তাই backup-কে কম priority দিতে হবে
 nice -n 19 bash /opt/scripts/nightly_backup.sh
 ```
 
@@ -349,9 +345,9 @@ Priority:   HIGH   HIGH  NORMAL  LOW   LOWEST
 **Task 3:**
 ```bash
 # top রান করুন
-# 'r' চাপো
+# 'r' চাপুন
 # যেকোনো একটি process-এর nice value পরিবর্তন করুন
-# পরিবর্তন হয়েছে কিনা NI column-এ দেখো
+# পরিবর্তন হয়েছে কিনা NI column-এ দেখুন
 ```
 
 ---
@@ -361,3 +357,14 @@ Priority:   HIGH   HIGH  NORMAL  LOW   LOWEST
 **Chapter 3 - Lesson 6: Memory Monitoring**
 
 > `free`, `vmstat`, `/proc/meminfo`, `smem` দিয়ে Linux-এর memory কীভাবে monitor করতে হয় - DevOps-এ memory leak ধরা এবং performance optimize করার real skills শিখবো! *Happy Learning* 🚀
+
+<table width="100%">
+  <tr>
+    <td align="left">
+      <a href="../04-Background-Foreground-Jobs">← Background &amp; Foreground Jobs</a>
+    </td>
+    <td align="right">
+      <a href="../06-Memory-Monitoring">Memory Monitoring →</a>
+    </td>
+  </tr>
+</table>
