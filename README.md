@@ -31,8 +31,8 @@ The course is divided into **11 Chapters**. Each chapter focuses on a specific d
 | [Chapter 03](./Chapter-03/) | Process & Performance Management | 10 | ✅ Done |
 | [Chapter 04](./Chapter-04/) | Networking in Linux | 11 | ✅ Done |
 | [Chapter 05](./Chapter-05/) | Shell Scripting & Automation | 11 | ✅ Done |
-| [Chapter 06](./Chapter-06/) | Systemd & Service Management | 8 | 🔄 In Progress |
-| [Chapter 07](./Chapter-07/) | Storage & File Systems | 10 | ⏳ Upcoming |
+| [Chapter 06](./Chapter-06/) | Systemd & Service Management | 8 | ✅ Done |
+| [Chapter 07](./Chapter-07/) | Storage & File Systems | 10 | 🔄 In Progress |
 | [Chapter 08](./Chapter-08/) | Security Hardening | 10 | ⏳ Upcoming |
 | [Chapter 09](./Chapter-09/) | Linux + Containers Internals | 7 | ⏳ Upcoming |
 | [Chapter 10](./Chapter-10/) | Observability, Logging & Debugging | 8 | ⏳ Upcoming |
